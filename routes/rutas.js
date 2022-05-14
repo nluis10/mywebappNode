@@ -24,6 +24,15 @@ rutas.post("/agregarModelo", async (req, res) => {
   res.json({ mensaje: "Modelo agregado", MaxId: id});
 });
 
+rutas.get("/verificarCedula/:cedula", async (req, res) => {
+  let modeloId = await Modelo.findOne({ cedula: req.params.cedula });
+  res.json(modeloId);
+});
+
+rutas.get("/verificarEmail/:email", async (req, res) => {
+  let modeloId = await Modelo.findOne({ email: req.params.email });
+  res.json(modeloId);
+});
 
 rutas.get("/modelos", async (req, res) => {
   let modelos = await Modelo.find();
