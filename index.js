@@ -22,7 +22,7 @@ app.use("/api", cors(corsOptions), jsonParser, verificarToken, rutas);
 
 app.use("/", cors(corsOptions), (req, res) => {
   res.json({
-    mensaje: "API Gestion de cultivos",
+    mensaje: "NODEJS WEB API",
   });
 });
 
