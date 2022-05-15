@@ -39,5 +39,10 @@ rutas.get("/modelos", async (req, res) => {
   res.json(modelos);
 });
 
+rutas.get("/perfil/:cedula", async (req, res) => {
+  let modeloId = await Modelo.findOne({ cedula: req.params.cedula });
+  res.json(modeloId);
+});
+
 
 module.exports = rutas;
