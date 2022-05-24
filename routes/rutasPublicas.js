@@ -3,9 +3,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Usuario = require("../models/usuario");
 
+const { getFileStream } = require('../s3')
 
 const rutas = express.Router();
 
+//Verificar datos para autenticar al usuario
 rutas.post("/login", async (req, res) => {
     let usuario = req.body.email;
   
@@ -41,5 +43,13 @@ rutas.post("/login", async (req, res) => {
       token: token
     })
   });
+
+  //Obtener imagen de S3
+  rutas.get('/s3Image/:key', (req, res)=>{
+    const key = req.params.key
+    const readStream = getFileStream(key)
+  
+    readStream.pipe(res)
+  })
 
   module.exports = rutas;
