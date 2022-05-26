@@ -56,16 +56,31 @@ rutas.get("/perfil/:cedula", async (req, res) => {
   res.json(modeloId);
 });
 
+
 //Subir imagen al servidor y luego a S3
 rutas.post("/images", upload.single('image'), async (req, res) => {
   const file = req.file
-  console.log(file)
   const descripcion = req.body.descripcion
-  
+  const cedula = req.body.cedula
+
+  console.log(file)
+
+  //Lamando a la funcion del archivo S3 para subir el archivo
   const result = await uploadFile(file)
   console.log(result)
+
+  //Para borrar el archivo del servidor
   await unlinkFile(file.path)
-  imagePath = `/images/${result.Key}`
+
+  imagePath = `s3Image/${result.Key}`
+
+  //Agregar datos de la imagen a la base de datos
+  const modelo = await Modelo.findOne({ cedula: cedula });
+  imagen = {descripcion: descripcion, ruta: imagePath};
+  modelo.imagenes.push(imagen)
+  await modelo.save();
+
+
   res.json(imagePath);
 });
 

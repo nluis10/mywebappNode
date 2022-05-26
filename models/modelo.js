@@ -18,6 +18,7 @@ const ModeloSchema = new Schema({
     instagram: String,
     youtube: String,
     pornhub: String,
+    imagenes: Array,
 })
 
 const Modelo = mongoose.model('modelos', ModeloSchema)
